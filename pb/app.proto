@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package media;
+
+// -----------------Music service-----------------
+
+service MusicService {
+    rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
+    rpc AddMusic(AddMusicRequest) returns (AddMusicResponse) {}
+    rpc GetMusic(GetMusicRequest) returns (GetMusicResponse) {}
+    rpc RemoveMusic(RemoveMusicRequest) returns (Empty) {}
+}
+
+message Artist {
+  string name = 1;
+  string stage_name = 2;
+  int32 age = 3;
+}
+
+message AddArtistRequest {
+  string name = 1;
+  string stage_name = 2;
+}
+
+message AddArtistResponse {
+  string artist_id = 1;
+}
+
+message MusicItem {
+    string name = 1;
+    string title = 2;
+    int32  track_number = 3;
+    Album album = 4;
+}
+
+message Album {
+    Artist artist = 1;
+    string title = 2;
+    int32  date = 3;
+}
+
+message GetMusicResponse {
+    string title = 1;
+    int32  track_number = 2;
+    repeated Artist featured_artists = 3;
+    Album album = 4;
+}
+
+message AddMusicRequest {
+    string artist_id = 1;
+    MusicItem item = 2;
+}
+
+message AddMusicResponse {
+    string music_id = 1;
+}
+
+message RemoveMusicRequest {
+    string music_id = 1;
+}
+
+message GetMusicRequest {
+    string music_id = 1;
+}
+
+message Empty {}
+
+// ---------------Video service----------
+
+service VideoService {
+  rpc ListVideos(Empty) returns (ListVideoResponse){}
+}
+
+message Person {
+  string name = 1;
+}
+
+message Video {
+  string name = 1;
+  repeated Person actor = 2;
+  repeated Person director = 3;
+  string date = 4;
+}
+  
+message ListVideoResponse {
+    repeated Video videos = 1;
+}
+
+
+// -------------Email service-----------------
+
+service EmailService {
+    rpc SendConfirmation(SendConfirmationRequest) returns (Empty) {}
+}
+
+message SendConfirmationRequest {
+    string email = 1;
+  string message = 2;
+}
