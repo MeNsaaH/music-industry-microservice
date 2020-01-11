@@ -10,6 +10,7 @@ import logging
 from pythonjsonlogger import jsonlogger
 
 logger = logging.getLogger('emailservice-client')
+logger.setLevel(logging.INFO)
 
 formatter = jsonlogger.JsonFormatter()
 logHandler = logging.StreamHandler(sys.stdout)

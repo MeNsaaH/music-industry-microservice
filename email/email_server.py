@@ -17,6 +17,7 @@ import logging
 from pythonjsonlogger import jsonlogger
 
 logger = logging.getLogger('emailservice-server')
+logging.setLevel(logging.INFO)
 
 formatter = jsonlogger.JsonFormatter()
 logHandler = logging.StreamHandler(sys.stdout)
@@ -38,6 +39,7 @@ class BaseEmailService(app_pb2_grpc.EmailServiceServicer):
   def Watch(self, request, context):
     yield health_pb2.HealthCheckResponse(
       status=health_pb2.HealthCheckResponse.SERVING)
+
 
 class EmailService(BaseEmailService):
   def __init__(self):
@@ -88,7 +90,7 @@ class EmailService(BaseEmailService):
 
 class DummyEmailService(BaseEmailService):
   def SendConfirmation(self, request, context):
-    logger.info('A request to send order confirmation email to {} has been received.'.format(request.email))
+    logger.info('A request to send confirmation email to {} has been received.'.format(request.email))
     return app_pb2.Empty()
 
 class HealthCheck():
