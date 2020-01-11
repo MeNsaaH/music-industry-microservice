@@ -1,0 +1,13 @@
+{
+    "01fdbf04-34c2-11ea-83a6-b1766580429c": {
+        "title": "A Geek Song",
+        "track_number": 1,
+        "featured_artists": [
+            {
+                "artist_id": "949d3ffc-34c1-11ea-83a6-b1766580429c"
+            }
+        ],
+        "album_id": "2846d408-34c1-11ea-83a6-b1766580429c",
+        "artist_id": "d23a35a0-34c0-11ea-83a6-b1766580429c"
+    }
+}

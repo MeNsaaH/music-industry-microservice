@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package media;
 
-// -----------------Music service-----------------
+// -----------------Song service-----------------
 
-service MusicService {
+service SongService {
     rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
-    rpc AddMusic(AddMusicRequest) returns (AddMusicResponse) {}
-    rpc GetMusic(GetMusicRequest) returns (GetMusicResponse) {}
-    rpc RemoveMusic(RemoveMusicRequest) returns (Empty) {}
+    rpc AddSong(AddSongRequest) returns (AddSongResponse) {}
+    rpc GetSong(GetSongRequest) returns (GetSongResponse) {}
+    rpc RemoveSong(RemoveSongRequest) returns (Empty) {}
 }
 
 message Artist {
@@ -20,47 +20,49 @@ message Artist {
 message AddArtistRequest {
   string name = 1;
   string stage_name = 2;
+  int32 age = 3;
 }
 
 message AddArtistResponse {
   string artist_id = 1;
 }
 
-message MusicItem {
+message SongItem {
     string name = 1;
     string title = 2;
     int32  track_number = 3;
-    Album album = 4;
+    repeated Artist featured_artists = 4;
+    Album album = 5;
 }
 
 message Album {
     Artist artist = 1;
     string title = 2;
-    int32  date = 3;
+    string date = 3;
 }
 
-message GetMusicResponse {
+message GetSongResponse {
     string title = 1;
     int32  track_number = 2;
     repeated Artist featured_artists = 3;
     Album album = 4;
 }
 
-message AddMusicRequest {
+message AddSongRequest {
     string artist_id = 1;
-    MusicItem item = 2;
+    SongItem song = 2;
 }
 
-message AddMusicResponse {
-    string music_id = 1;
+message AddSongResponse {
+    string song_id = 1;
 }
 
-message RemoveMusicRequest {
-    string music_id = 1;
+message RemoveSongRequest {
+    string song_id = 1;
 }
 
-message GetMusicRequest {
-    string music_id = 1;
+message GetSongRequest {
+    string song_id = 1;
 }
 
 message Empty {}
