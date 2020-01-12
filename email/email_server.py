@@ -14,14 +14,10 @@ from grpc_health.v1 import health_pb2
 from grpc_health.v1 import health_pb2_grpc
 
 import logging
-from pythonjsonlogger import jsonlogger
 
-logger = logging.getLogger('emailservice-server')
-logging.setLevel(logging.INFO)
-
-formatter = jsonlogger.JsonFormatter()
+logger = logging.getLogger('EmailService-server')
+logger.setLevel(logging.INFO)
 logHandler = logging.StreamHandler(sys.stdout)
-logHandler.setFormatter(formatter)
 logger.addHandler(logHandler)
 
 # Loads confirmation email template from file

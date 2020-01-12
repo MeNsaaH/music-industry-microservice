@@ -30,6 +30,11 @@ class SongServiceStub(object):
         request_serializer=app__pb2.GetSongRequest.SerializeToString,
         response_deserializer=app__pb2.GetSongResponse.FromString,
         )
+    self.GetSongs = channel.unary_stream(
+        '/media.SongService/GetSongs',
+        request_serializer=app__pb2.Empty.SerializeToString,
+        response_deserializer=app__pb2.GetSongResponse.FromString,
+        )
     self.RemoveSong = channel.unary_unary(
         '/media.SongService/RemoveSong',
         request_serializer=app__pb2.RemoveSongRequest.SerializeToString,
@@ -63,6 +68,13 @@ class SongServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetSongs(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def RemoveSong(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -86,6 +98,11 @@ def add_SongServiceServicer_to_server(servicer, server):
       'GetSong': grpc.unary_unary_rpc_method_handler(
           servicer.GetSong,
           request_deserializer=app__pb2.GetSongRequest.FromString,
+          response_serializer=app__pb2.GetSongResponse.SerializeToString,
+      ),
+      'GetSongs': grpc.unary_stream_rpc_method_handler(
+          servicer.GetSongs,
+          request_deserializer=app__pb2.Empty.FromString,
           response_serializer=app__pb2.GetSongResponse.SerializeToString,
       ),
       'RemoveSong': grpc.unary_unary_rpc_method_handler(

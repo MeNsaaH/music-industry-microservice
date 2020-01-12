@@ -85,6 +85,34 @@ class SongService(app_pb2_grpc.SongServiceServicer):
             context.set_code(grpc.StatusCode.NOT_FOUND)
             return app_pb2.GetSongResponse()
 
+    def GetSongs(self, request, context):
+        for song_id, song in self.song_db.items():
+            response = {
+                "featured_artists": [],
+                "title": song["title"],
+                "album": None,
+                "artist": None,
+                "track_number": None,
+            }
+            if "artist_id" in song.keys():
+                artist = self.artist_db[song["artist_id"]]
+                response["artist"]= app_pb2.Artist(**artist)
+
+            if "album_id" in song.keys():
+                album = self.album_db[song["album_id"]]
+                response["album"]= app_pb2.Album(
+                        artist=app_pb2.Artist(**self.artist_db[album["artist_id"]]),
+                        title=album["title"], date=album["date"])
+                response["track_number"] = request.track_number
+
+            if "featured_artists_ids" in song.keys():
+                for feat_artist_id in song["featured_artists_ids"]:
+                    response["featured_artists"].append(
+                            app_pb2.Artist(**self.artist_db[feat_artist_id]))
+
+            yield app_pb2.GetSongResponse(
+                    **{k:response[k] for i, k in enumerate(response.keys()) if response[k] is not None})
+
     def AddSong(self, request, context):
         song_id = str(uuid.uuid1())
         if request.album_id:
@@ -108,7 +136,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
             return app_pb2.GetSongResponse()
 
         for artist_id in request.featured_artists_ids:
-            if artist_id not in self.db:
+            if artist_id not in self.artist_db:
                 context.set_details(f"Featured Artist {artist_id} does not exist")
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
                 return app_pb2.GetSongResponse()

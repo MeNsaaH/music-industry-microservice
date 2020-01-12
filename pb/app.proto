@@ -8,6 +8,7 @@ service SongService {
     rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
     rpc AddSong(AddSongRequest) returns (AddSongResponse) {}
     rpc GetSong(GetSongRequest) returns (GetSongResponse) {}
+    rpc GetSongs(Empty) returns (stream GetSongResponse) {}
     rpc RemoveSong(RemoveSongRequest) returns (Empty) {}
 }
 
@@ -34,10 +35,11 @@ message Album {
 }
 
 message GetSongResponse {
-    string title = 1;
-    int32  track_number = 2;
-    repeated Artist featured_artists = 3;
-    Album album = 4;
+    Artist artist = 1;
+    string title = 2;
+    int32  track_number = 3;
+    repeated Artist featured_artists = 4;
+    Album album = 5;
 }
 
 message AddSongRequest {

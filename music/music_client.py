@@ -19,11 +19,11 @@ if __name__ == "__main__":
   # set up server stub
   channel = grpc.insecure_channel("localhost:8082")
   stub = app_pb2_grpc.SongServiceStub(channel)
-  artist = {"name":"Ernesto Reede", "stage_name":"ernesto", "age":23} 
+  artist = {"name":"Handanovic Sooks", "stage_name":"shan", "age":23} 
   album = {"title":"Funny Album", "date":"14-14-2019"}
-  song = {"title":"Something Awful", "track_number":3}
+  song = {"title":"Geekdom", "track_number":3, "featured_artists_ids":["89979b90-34e2-11ea-83a6-b1766580429c"]}
 
-#   # Test Add Artist
+  # Test Add Artist
 #   request = app_pb2.AddArtistRequest(**artist)
 #   # make call to server
 #   response = stub.AddArtist(request)
@@ -37,7 +37,13 @@ if __name__ == "__main__":
 #   # Test Add Song
 #   artist = app_pb2.Artist(**artist)
 #   album = app_pb2.Album(artist=artist, **album)
-#   request = app_pb2.AddSongRequest(**song, album_id="2846d408-34c1-11ea-83a6-b1766580429c")
+#   request = app_pb2.AddSongRequest(**song, artist_id="fd41b124-34d4-11ea-83a6-b1766580429c")
 #   # make call to server
 #   response = stub.AddSong(request)
 #   logger.info(response)
+
+  # Test Get Songs
+  request = app_pb2.Empty()
+  response = stub.GetSongs(request)
+  for song in response:
+      logger.info(song)
