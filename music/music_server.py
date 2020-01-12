@@ -26,8 +26,11 @@ DATA_PATH = os.path.join(BASE_DIR, "data/{}.json")
 
 def load_song_data(path):
     """ Load Sample JSON Data from `data` directory """
-    with open(DATA_PATH.format(path), 'r')  as f:
-        return json.load(f)
+    if os.path.isfile(DATA_PATH.format(path)):
+        with open(DATA_PATH.format(path), 'r') as f:
+            return json.load(f)
+    SongService.save({}, path)
+    return {}
 
 def get_artist(artist_id, data=None):
     if not data:
@@ -46,14 +49,15 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         self.album_db = load_song_data(self.ALBUM_DB)
         self.song_db = load_song_data(self.SONG_DB)
 
-    def save(self, data, path):
+    @staticmethod
+    def save(data, path):
         with open(DATA_PATH.format(path), 'w') as f:
             json.dump(data, f)
 
     def AddArtist(self, request, context):
         artist_id = str(uuid.uuid1())
         self.artist_db[artist_id] = protobuf_to_dict(request)
-        self.save(self.artist_db, self.ARTISTS_DB)
+        SongService.save(self.artist_db, self.ARTISTS_DB)
         response = app_pb2.AddArtistResponse(artist_id=artist_id)
         return response
 
@@ -110,7 +114,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
                 return app_pb2.GetSongResponse()
 
         self.song_db[song_id] = protobuf_to_dict(request)
-        self.save(self.song_db, self.SONG_DB)
+        SongService.save(self.song_db, self.SONG_DB)
         response = app_pb2.AddSongResponse(song_id=song_id)
         return response
 
