@@ -83,6 +83,34 @@ class SongService(app_pb2_grpc.SongServiceServicer):
 
     def AddSong(self, request, context):
         song_id = str(uuid.uuid1())
+        if request.album_id:
+            if request.album_id not in self.album_db.keys():
+                context.set_details(f"Album {request.album_id} does not exist")
+                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                return app_pb2.AddSongResponse()
+            if not request.track_number:
+                context.set_details("Song must have a track number if Album parameter is set")
+                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                return app_pb2.AddSongResponse()
+
+        if not request.album_id and not request.artist_id:
+            context.set_details("artist_id or album_id parameter must be specified")
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            return app_pb2.GetSongResponse()
+
+        if request.artist_id and request.artist_id not in self.artist_db:
+            context.set_details(f"Artist {request.artist_id} does not exist")
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            return app_pb2.GetSongResponse()
+
+        for artist_id in request.featured_artists_ids:
+            if artist_id not in self.db:
+                context.set_details(f"Featured Artist {artist_id} does not exist")
+                context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+                return app_pb2.GetSongResponse()
+
+        self.song_db[song_id] = protobuf_to_dict(request)
+        self.save(self.song_db, self.SONG_DB)
         response = app_pb2.AddSongResponse(song_id=song_id)
         return response
 

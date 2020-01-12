@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='media',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\tapp.proto\x12\x05media\"7\n\x06\x41rtist\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nstage_name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\"A\n\x10\x41\x64\x64\x41rtistRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nstage_name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\"&\n\x11\x41\x64\x64\x41rtistResponse\x12\x11\n\tartist_id\x18\x01 \x01(\t\"\x83\x01\n\x08SongItem\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x14\n\x0ctrack_number\x18\x03 \x01(\x05\x12\'\n\x10\x66\x65\x61tured_artists\x18\x04 \x03(\x0b\x32\r.media.Artist\x12\x1b\n\x05\x61lbum\x18\x05 \x01(\x0b\x32\x0c.media.Album\"C\n\x05\x41lbum\x12\x1d\n\x06\x61rtist\x18\x01 \x01(\x0b\x32\r.media.Artist\x12\r\n\x05title\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\"|\n\x0fGetSongResponse\x12\r\n\x05title\x18\x01 \x01(\t\x12\x14\n\x0ctrack_number\x18\x02 \x01(\x05\x12\'\n\x10\x66\x65\x61tured_artists\x18\x03 \x03(\x0b\x32\r.media.Artist\x12\x1b\n\x05\x61lbum\x18\x04 \x01(\x0b\x32\x0c.media.Album\"B\n\x0e\x41\x64\x64SongRequest\x12\x11\n\tartist_id\x18\x01 \x01(\t\x12\x1d\n\x04song\x18\x02 \x01(\x0b\x32\x0f.media.SongItem\"\"\n\x0f\x41\x64\x64SongResponse\x12\x0f\n\x07song_id\x18\x01 \x01(\t\"$\n\x11RemoveSongRequest\x12\x0f\n\x07song_id\x18\x01 \x01(\t\"!\n\x0eGetSongRequest\x12\x0f\n\x07song_id\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"\x16\n\x06Person\x12\x0c\n\x04name\x18\x01 \x01(\t\"b\n\x05Video\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1c\n\x05\x61\x63tor\x18\x02 \x03(\x0b\x32\r.media.Person\x12\x1f\n\x08\x64irector\x18\x03 \x03(\x0b\x32\r.media.Person\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\t\"1\n\x11ListVideoResponse\x12\x1c\n\x06videos\x18\x01 \x03(\x0b\x32\x0c.media.Video\"9\n\x17SendConfirmationRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t2\xff\x01\n\x0bSongService\x12@\n\tAddArtist\x12\x17.media.AddArtistRequest\x1a\x18.media.AddArtistResponse\"\x00\x12:\n\x07\x41\x64\x64Song\x12\x15.media.AddSongRequest\x1a\x16.media.AddSongResponse\"\x00\x12:\n\x07GetSong\x12\x15.media.GetSongRequest\x1a\x16.media.GetSongResponse\"\x00\x12\x36\n\nRemoveSong\x12\x18.media.RemoveSongRequest\x1a\x0c.media.Empty\"\x00\x32\x46\n\x0cVideoService\x12\x36\n\nListVideos\x12\x0c.media.Empty\x1a\x18.media.ListVideoResponse\"\x00\x32R\n\x0c\x45mailService\x12\x42\n\x10SendConfirmation\x12\x1e.media.SendConfirmationRequest\x1a\x0c.media.Empty\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\tapp.proto\x12\x05media\"7\n\x06\x41rtist\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nstage_name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\"A\n\x10\x41\x64\x64\x41rtistRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nstage_name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\"&\n\x11\x41\x64\x64\x41rtistResponse\x12\x11\n\tartist_id\x18\x01 \x01(\t\"u\n\x08SongItem\x12\r\n\x05title\x18\x01 \x01(\t\x12\x14\n\x0ctrack_number\x18\x02 \x01(\x05\x12\'\n\x10\x66\x65\x61tured_artists\x18\x03 \x03(\x0b\x32\r.media.Artist\x12\x1b\n\x05\x61lbum\x18\x04 \x01(\x0b\x32\x0c.media.Album\"C\n\x05\x41lbum\x12\x1d\n\x06\x61rtist\x18\x01 \x01(\x0b\x32\r.media.Artist\x12\r\n\x05title\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\"|\n\x0fGetSongResponse\x12\r\n\x05title\x18\x01 \x01(\t\x12\x14\n\x0ctrack_number\x18\x02 \x01(\x05\x12\'\n\x10\x66\x65\x61tured_artists\x18\x03 \x03(\x0b\x32\r.media.Artist\x12\x1b\n\x05\x61lbum\x18\x04 \x01(\x0b\x32\x0c.media.Album\"x\n\x0e\x41\x64\x64SongRequest\x12\x10\n\x08\x61lbum_id\x18\x01 \x01(\t\x12\x11\n\tartist_id\x18\x02 \x01(\t\x12\r\n\x05title\x18\x03 \x01(\t\x12\x14\n\x0ctrack_number\x18\x04 \x01(\x05\x12\x1c\n\x14\x66\x65\x61tured_artists_ids\x18\x05 \x03(\t\"\"\n\x0f\x41\x64\x64SongResponse\x12\x0f\n\x07song_id\x18\x01 \x01(\t\"$\n\x11RemoveSongRequest\x12\x0f\n\x07song_id\x18\x01 \x01(\t\"!\n\x0eGetSongRequest\x12\x0f\n\x07song_id\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"\x16\n\x06Person\x12\x0c\n\x04name\x18\x01 \x01(\t\"b\n\x05Video\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x1c\n\x05\x61\x63tor\x18\x02 \x03(\x0b\x32\r.media.Person\x12\x1f\n\x08\x64irector\x18\x03 \x03(\x0b\x32\r.media.Person\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\t\"1\n\x11ListVideoResponse\x12\x1c\n\x06videos\x18\x01 \x03(\x0b\x32\x0c.media.Video\"9\n\x17SendConfirmationRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t2\xff\x01\n\x0bSongService\x12@\n\tAddArtist\x12\x17.media.AddArtistRequest\x1a\x18.media.AddArtistResponse\"\x00\x12:\n\x07\x41\x64\x64Song\x12\x15.media.AddSongRequest\x1a\x16.media.AddSongResponse\"\x00\x12:\n\x07GetSong\x12\x15.media.GetSongRequest\x1a\x16.media.GetSongResponse\"\x00\x12\x36\n\nRemoveSong\x12\x18.media.RemoveSongRequest\x1a\x0c.media.Empty\"\x00\x32\x46\n\x0cVideoService\x12\x36\n\nListVideos\x12\x0c.media.Empty\x1a\x18.media.ListVideoResponse\"\x00\x32R\n\x0c\x45mailService\x12\x42\n\x10SendConfirmation\x12\x1e.media.SendConfirmationRequest\x1a\x0c.media.Empty\"\x00\x62\x06proto3')
 )
 
 
@@ -155,36 +155,29 @@ _SONGITEM = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='media.SongItem.name', index=0,
+      name='title', full_name='media.SongItem.title', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='title', full_name='media.SongItem.title', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='track_number', full_name='media.SongItem.track_number', index=2,
-      number=3, type=5, cpp_type=1, label=1,
+      name='track_number', full_name='media.SongItem.track_number', index=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='featured_artists', full_name='media.SongItem.featured_artists', index=3,
-      number=4, type=11, cpp_type=10, label=3,
+      name='featured_artists', full_name='media.SongItem.featured_artists', index=2,
+      number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='album', full_name='media.SongItem.album', index=4,
-      number=5, type=11, cpp_type=10, label=1,
+      name='album', full_name='media.SongItem.album', index=3,
+      number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -201,8 +194,8 @@ _SONGITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=185,
-  serialized_end=316,
+  serialized_start=184,
+  serialized_end=301,
 )
 
 
@@ -246,8 +239,8 @@ _ALBUM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=318,
-  serialized_end=385,
+  serialized_start=303,
+  serialized_end=370,
 )
 
 
@@ -298,8 +291,8 @@ _GETSONGRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=387,
-  serialized_end=511,
+  serialized_start=372,
+  serialized_end=496,
 )
 
 
@@ -311,16 +304,37 @@ _ADDSONGREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='artist_id', full_name='media.AddSongRequest.artist_id', index=0,
+      name='album_id', full_name='media.AddSongRequest.album_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='song', full_name='media.AddSongRequest.song', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='artist_id', full_name='media.AddSongRequest.artist_id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='title', full_name='media.AddSongRequest.title', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='track_number', full_name='media.AddSongRequest.track_number', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='featured_artists_ids', full_name='media.AddSongRequest.featured_artists_ids', index=4,
+      number=5, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -336,8 +350,8 @@ _ADDSONGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=513,
-  serialized_end=579,
+  serialized_start=498,
+  serialized_end=618,
 )
 
 
@@ -367,8 +381,8 @@ _ADDSONGRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=581,
-  serialized_end=615,
+  serialized_start=620,
+  serialized_end=654,
 )
 
 
@@ -398,8 +412,8 @@ _REMOVESONGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=617,
-  serialized_end=653,
+  serialized_start=656,
+  serialized_end=692,
 )
 
 
@@ -429,8 +443,8 @@ _GETSONGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=655,
-  serialized_end=688,
+  serialized_start=694,
+  serialized_end=727,
 )
 
 
@@ -453,8 +467,8 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=690,
-  serialized_end=697,
+  serialized_start=729,
+  serialized_end=736,
 )
 
 
@@ -484,8 +498,8 @@ _PERSON = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=699,
-  serialized_end=721,
+  serialized_start=738,
+  serialized_end=760,
 )
 
 
@@ -536,8 +550,8 @@ _VIDEO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=723,
-  serialized_end=821,
+  serialized_start=762,
+  serialized_end=860,
 )
 
 
@@ -567,8 +581,8 @@ _LISTVIDEORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=823,
-  serialized_end=872,
+  serialized_start=862,
+  serialized_end=911,
 )
 
 
@@ -605,8 +619,8 @@ _SENDCONFIRMATIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=874,
-  serialized_end=931,
+  serialized_start=913,
+  serialized_end=970,
 )
 
 _SONGITEM.fields_by_name['featured_artists'].message_type = _ARTIST
@@ -614,7 +628,6 @@ _SONGITEM.fields_by_name['album'].message_type = _ALBUM
 _ALBUM.fields_by_name['artist'].message_type = _ARTIST
 _GETSONGRESPONSE.fields_by_name['featured_artists'].message_type = _ARTIST
 _GETSONGRESPONSE.fields_by_name['album'].message_type = _ALBUM
-_ADDSONGREQUEST.fields_by_name['song'].message_type = _SONGITEM
 _VIDEO.fields_by_name['actor'].message_type = _PERSON
 _VIDEO.fields_by_name['director'].message_type = _PERSON
 _LISTVIDEORESPONSE.fields_by_name['videos'].message_type = _VIDEO
@@ -748,8 +761,8 @@ _SONGSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=934,
-  serialized_end=1189,
+  serialized_start=973,
+  serialized_end=1228,
   methods=[
   _descriptor.MethodDescriptor(
     name='AddArtist',
@@ -799,8 +812,8 @@ _VIDEOSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   serialized_options=None,
-  serialized_start=1191,
-  serialized_end=1261,
+  serialized_start=1230,
+  serialized_end=1300,
   methods=[
   _descriptor.MethodDescriptor(
     name='ListVideos',
@@ -823,8 +836,8 @@ _EMAILSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=2,
   serialized_options=None,
-  serialized_start=1263,
-  serialized_end=1345,
+  serialized_start=1302,
+  serialized_end=1384,
   methods=[
   _descriptor.MethodDescriptor(
     name='SendConfirmation',

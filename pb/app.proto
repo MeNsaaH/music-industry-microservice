@@ -27,14 +27,6 @@ message AddArtistResponse {
   string artist_id = 1;
 }
 
-message SongItem {
-    string name = 1;
-    string title = 2;
-    int32  track_number = 3;
-    repeated Artist featured_artists = 4;
-    Album album = 5;
-}
-
 message Album {
     Artist artist = 1;
     string title = 2;
@@ -49,8 +41,11 @@ message GetSongResponse {
 }
 
 message AddSongRequest {
-    string artist_id = 1;
-    SongItem song = 2;
+    string album_id = 1;
+    string artist_id = 2;
+    string title = 3;
+    int32  track_number = 4;
+    repeated string featured_artists_ids = 5;
 }
 
 message AddSongResponse {
