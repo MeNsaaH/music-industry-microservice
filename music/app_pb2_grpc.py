@@ -20,6 +20,11 @@ class SongServiceStub(object):
         request_serializer=app__pb2.AddArtistRequest.SerializeToString,
         response_deserializer=app__pb2.AddArtistResponse.FromString,
         )
+    self.AddAlbum = channel.unary_unary(
+        '/media.SongService/AddAlbum',
+        request_serializer=app__pb2.AddAlbumRequest.SerializeToString,
+        response_deserializer=app__pb2.AddAlbumResponse.FromString,
+        )
     self.AddSong = channel.unary_unary(
         '/media.SongService/AddSong',
         request_serializer=app__pb2.AddSongRequest.SerializeToString,
@@ -48,6 +53,13 @@ class SongServiceServicer(object):
   """
 
   def AddArtist(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def AddAlbum(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -89,6 +101,11 @@ def add_SongServiceServicer_to_server(servicer, server):
           servicer.AddArtist,
           request_deserializer=app__pb2.AddArtistRequest.FromString,
           response_serializer=app__pb2.AddArtistResponse.SerializeToString,
+      ),
+      'AddAlbum': grpc.unary_unary_rpc_method_handler(
+          servicer.AddAlbum,
+          request_deserializer=app__pb2.AddAlbumRequest.FromString,
+          response_serializer=app__pb2.AddAlbumResponse.SerializeToString,
       ),
       'AddSong': grpc.unary_unary_rpc_method_handler(
           servicer.AddSong,

@@ -44,7 +44,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
     SONG_DB = "songs"
 
     def __init__(self):
-        # A simple json database to contain song :)
+        # A simple json database to contain music data:)
         self.artist_db = load_song_data(self.ARTISTS_DB)
         self.album_db = load_song_data(self.ALBUM_DB)
         self.song_db = load_song_data(self.SONG_DB)
@@ -59,6 +59,18 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         self.artist_db[artist_id] = protobuf_to_dict(request)
         SongService.save(self.artist_db, self.ARTISTS_DB)
         response = app_pb2.AddArtistResponse(artist_id=artist_id)
+        return response
+
+    def AddAlbum(self, request, context):
+        album_id = str(uuid.uuid1())
+        if request.artist_id not in self.artist_db:
+            context.set_details(f"Artist with id `{request.artist_id}` does not exist")
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            return app_pb2.GetSongResponse()
+
+        self.album_db[album_id] = protobuf_to_dict(request)
+        SongService.save(self.album_db, self.ALBUM_DB)
+        response = app_pb2.AddAlbumResponse(album_id=album_id)
         return response
 
     def GetSong(self, request, context):

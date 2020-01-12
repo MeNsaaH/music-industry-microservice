@@ -5,11 +5,12 @@ package media;
 // -----------------Song service-----------------
 
 service SongService {
-    rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
-    rpc AddSong(AddSongRequest) returns (AddSongResponse) {}
-    rpc GetSong(GetSongRequest) returns (GetSongResponse) {}
-    rpc GetSongs(Empty) returns (stream GetSongResponse) {}
-    rpc RemoveSong(RemoveSongRequest) returns (Empty) {}
+  rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
+  rpc AddAlbum(AddAlbumRequest) returns (AddAlbumResponse) {}
+  rpc AddSong(AddSongRequest) returns (AddSongResponse) {}
+  rpc GetSong(GetSongRequest) returns (GetSongResponse) {}
+  rpc GetSongs(Empty) returns (stream GetSongResponse) {}
+  rpc RemoveSong(RemoveSongRequest) returns (Empty) {}
 }
 
 message Artist {
@@ -29,37 +30,47 @@ message AddArtistResponse {
 }
 
 message Album {
-    Artist artist = 1;
-    string title = 2;
-    string date = 3;
+  Artist artist = 1;
+  string title = 2;
+  string date = 3;
+}
+
+message AddAlbumRequest {
+  string artist_id = 1;
+  string title = 2;
+  string date = 3;
+}
+
+message AddAlbumResponse{
+  string album_id = 1;
 }
 
 message GetSongResponse {
-    Artist artist = 1;
-    string title = 2;
-    int32  track_number = 3;
-    repeated Artist featured_artists = 4;
-    Album album = 5;
+  Artist artist = 1;
+  string title = 2;
+  int32  track_number = 3;
+  repeated Artist featured_artists = 4;
+  Album album = 5;
 }
 
 message AddSongRequest {
-    string album_id = 1;
-    string artist_id = 2;
-    string title = 3;
-    int32  track_number = 4;
-    repeated string featured_artists_ids = 5;
+  string album_id = 1;
+  string artist_id = 2;
+  string title = 3;
+  int32  track_number = 4;
+  repeated string featured_artists_ids = 5;
 }
 
 message AddSongResponse {
-    string song_id = 1;
+  string song_id = 1;
 }
 
 message RemoveSongRequest {
-    string song_id = 1;
+  string song_id = 1;
 }
 
 message GetSongRequest {
-    string song_id = 1;
+  string song_id = 1;
 }
 
 message Empty {}
@@ -80,19 +91,19 @@ message Video {
   repeated Person director = 3;
   string date = 4;
 }
-  
+
 message ListVideoResponse {
-    repeated Video videos = 1;
+  repeated Video videos = 1;
 }
 
 
 // -------------Email service-----------------
 
 service EmailService {
-    rpc SendConfirmation(SendConfirmationRequest) returns (Empty) {}
+  rpc SendConfirmation(SendConfirmationRequest) returns (Empty) {}
 }
 
 message SendConfirmationRequest {
-    string email = 1;
+  string email = 1;
   string message = 2;
 }
