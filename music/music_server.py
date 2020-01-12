@@ -32,6 +32,7 @@ def load_song_data(path):
     SongService.save({}, path)
     return {}
 
+
 def get_artist(artist_id, data=None):
     if not data:
         data = load_song_data("artists")
@@ -61,6 +62,17 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         response = app_pb2.AddArtistResponse(artist_id=artist_id)
         return response
 
+    def GetArtists(self, request, context):
+        for artist_id, artist in self.artist_db.items():
+            response = {
+                "artist_id": artist_id,
+                "name": artist["name"],
+                "stage_name": artist["stage_name"],
+                "age": artist["age"],
+            }
+
+            yield app_pb2.GetArtistResponse(**response)
+
     def AddAlbum(self, request, context):
         album_id = str(uuid.uuid1())
         if request.artist_id not in self.artist_db:
@@ -72,6 +84,17 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         SongService.save(self.album_db, self.ALBUM_DB)
         response = app_pb2.AddAlbumResponse(album_id=album_id)
         return response
+
+    def GetAlbums(self, request, context):
+        for album_id, album in self.album_db.items():
+            response = {
+                "album_id": album_id,
+                "title": album["title"],
+                "artist_id": album["artist_id"],
+                "date": album["date"],
+            }
+
+            yield app_pb2.GetAlbumResponse(**response)
 
     def GetSong(self, request, context):
         # get song with id `request.song_id`
@@ -115,7 +138,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
                 response["album"]= app_pb2.Album(
                         artist=app_pb2.Artist(**self.artist_db[album["artist_id"]]),
                         title=album["title"], date=album["date"])
-                response["track_number"] = request.track_number
+                response["track_number"] = song["track_number"]
 
             if "featured_artists_ids" in song.keys():
                 for feat_artist_id in song["featured_artists_ids"]:

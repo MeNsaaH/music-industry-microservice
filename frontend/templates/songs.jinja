@@ -1,0 +1,19 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+  <h2>Songs</h2>
+<ol>
+    {% for song in songs %}
+        <li>
+          {{ song.title }} - {{ song.artist.name }}
+            {% if song.featured_artists %} 
+              ft
+              {% for artist in song.featured_artists %}
+                {{ artist.name }}
+              {% endfor %}
+            {% endif %}
+        </li>
+    {% endfor %}
+
+</ol>
+{% endblock %}

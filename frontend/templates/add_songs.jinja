@@ -1,0 +1,39 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+  <h2>Add a new Song:</h2>
+  <form method="post" action="{{ url('add-music') }}">
+    {% if form_errors %}
+    <div class="error">
+      {{ form_errors }}
+    </div>
+    {% endif %}
+    <p>
+      <div>
+        <label for="title">Song Title*:</label>
+        <input type="text" name="title" id="title" placeholder="Song Title" value="{{ title }}">
+      </div>
+      <div>
+        <label for="artist_id">Artist:</label>
+        <select name="artist_id">
+          {% for artist in artists %}
+            <option value={{artist.artist_id}}>{{artist.name}} </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="album_id">Album:</label>
+        <select name="album_id">
+          {% for album in albums %}
+            <option value={{album.album_id}}>{{album.title}} </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="track_number">Track Number:</label>
+        <input type="number" name="track_number" id="track_number" placeholder="1">
+      </div>
+      <button type="submit">Post Message</button>
+    </p>
+  </form>
+{% endblock %}

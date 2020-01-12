@@ -40,6 +40,16 @@ class SongServiceStub(object):
         request_serializer=app__pb2.Empty.SerializeToString,
         response_deserializer=app__pb2.GetSongResponse.FromString,
         )
+    self.GetAlbums = channel.unary_stream(
+        '/media.SongService/GetAlbums',
+        request_serializer=app__pb2.Empty.SerializeToString,
+        response_deserializer=app__pb2.GetAlbumResponse.FromString,
+        )
+    self.GetArtists = channel.unary_stream(
+        '/media.SongService/GetArtists',
+        request_serializer=app__pb2.Empty.SerializeToString,
+        response_deserializer=app__pb2.GetArtistResponse.FromString,
+        )
     self.RemoveSong = channel.unary_unary(
         '/media.SongService/RemoveSong',
         request_serializer=app__pb2.RemoveSongRequest.SerializeToString,
@@ -87,6 +97,20 @@ class SongServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetAlbums(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetArtists(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
   def RemoveSong(self, request, context):
     # missing associated documentation comment in .proto file
     pass
@@ -121,6 +145,16 @@ def add_SongServiceServicer_to_server(servicer, server):
           servicer.GetSongs,
           request_deserializer=app__pb2.Empty.FromString,
           response_serializer=app__pb2.GetSongResponse.SerializeToString,
+      ),
+      'GetAlbums': grpc.unary_stream_rpc_method_handler(
+          servicer.GetAlbums,
+          request_deserializer=app__pb2.Empty.FromString,
+          response_serializer=app__pb2.GetAlbumResponse.SerializeToString,
+      ),
+      'GetArtists': grpc.unary_stream_rpc_method_handler(
+          servicer.GetArtists,
+          request_deserializer=app__pb2.Empty.FromString,
+          response_serializer=app__pb2.GetArtistResponse.SerializeToString,
       ),
       'RemoveSong': grpc.unary_unary_rpc_method_handler(
           servicer.RemoveSong,
