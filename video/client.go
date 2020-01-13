@@ -41,19 +41,19 @@ func main() {
 
 	client := pb.NewVideoServiceClient(conn)
 
-	//  // Test Add New Video Service
-	//  res, err := client.AddVideo(ctx, &pb.AddVideoRequest{ArtistId: "fd41b124-34d4-11ea-83a6-b1766580429c", Video: &pb.Video{Title: "Rumble in the Bronx", Date: "12-12-2010"}})
-	//  if err != nil {
-	//    log.Error(err)
-	//  }
-	//  log.Info(res)
-
-	// Test Search Videoes
-	res, err := client.SearchVideos(ctx, &pb.SearchVideosRequest{Query: "hitch"})
+	// Test Add New Video Service
+	res, err := client.AddVideo(ctx, &pb.AddVideoRequest{ArtistId: "fd41b124-34d4-11ea-83a6-b1766580429c", Video: &pb.Video{Title: "Rumble in the Bronx", Date: "12-12-2010"}})
 	if err != nil {
 		log.Error(err)
 	}
 	log.Info(res)
+
+	// Test Search Videoes
+	res2, err := client.SearchVideos(ctx, &pb.SearchVideosRequest{Query: "hitch"})
+	if err != nil {
+		log.Error(err)
+	}
+	log.Info(res2)
 
 	//  // Test Get Videos
 	//  res1, err := client.GetVideo(ctx, &pb.GetVideoRequest{VideoId: "16997b72-361f-11ea-9f35-3c5282eed773"})

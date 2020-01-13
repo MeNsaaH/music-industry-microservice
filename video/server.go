@@ -106,6 +106,13 @@ func run(port string) string {
 func loadDB(videos *pb.ListVideosResponse) error {
 	videoMutex.Lock()
 	defer videoMutex.Unlock()
+	// Create file if it does not exist
+	f, err := os.OpenFile("videos.json", os.O_RDONLY|os.O_CREATE, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	f.Close()
+	// Load Json file
 	videoJSON, err := ioutil.ReadFile("videos.json")
 	if err != nil {
 		log.Fatalf("failed to open video json file: %v", err)
