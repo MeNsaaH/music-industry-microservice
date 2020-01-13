@@ -39,9 +39,7 @@ async def process_add_songs_form(request):
 #     session = await get_session(request)
 #     session['username'] = m.username
     request.app["music_stub"].AddSong(m)
-    return 
-
-    raise HTTPFound(request.app.router['messages'].url_for())
+    raise HTTPFound(request.app.router['music'].url_for())
 
 
 @template('songs.jinja')

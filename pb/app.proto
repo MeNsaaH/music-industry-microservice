@@ -8,17 +8,18 @@ service SongService {
   rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
   rpc AddAlbum(AddAlbumRequest) returns (AddAlbumResponse) {}
   rpc AddSong(AddSongRequest) returns (AddSongResponse) {}
-  rpc GetSong(GetSongRequest) returns (GetSongResponse) {}
-  rpc GetSongs(Empty) returns (stream GetSongResponse) {}
-  rpc GetAlbums(Empty) returns (stream GetAlbumResponse) {}
-  rpc GetArtists(Empty) returns (stream GetArtistResponse) {}
+  rpc GetSong(GetSongRequest) returns (Song) {}
+  rpc GetSongs(Empty) returns (stream Song) {}
+  rpc GetAlbums(Empty) returns (stream Album) {}
+  rpc GetArtists(Empty) returns (stream Artist) {}
   rpc RemoveSong(RemoveSongRequest) returns (Empty) {}
 }
 
 message Artist {
-  string name = 1;
-  string stage_name = 2;
-  int32 age = 3;
+  string id = 1;
+  string name = 2;
+  string stage_name = 3;
+  int32 age = 4;
 }
 
 message AddArtistRequest {
@@ -31,50 +32,35 @@ message AddArtistResponse {
   string artist_id = 1;
 }
 
-message GetArtistResponse {
-  string artist_id = 1;
-  string name = 2;
-  string stage_name = 3;
-  int32 age = 4;
-}
-
 message Album {
-  Artist artist = 1;
+  string id = 1;
   string title = 2;
   string date = 3;
+  Artist artist = 4;
 }
 
 message AddAlbumRequest {
   string artist_id = 1;
-  string title = 2;
-  string date = 3;
+  Album album = 2;
 }
 
 message AddAlbumResponse{
   string album_id = 1;
 }
 
-message GetAlbumResponse{
-  string album_id = 1;
-  string artist_id = 2;
-  string title = 3;
-  string date = 4;
-}
-
-message GetSongResponse {
-  Artist artist = 1;
+message Song {
+  string id = 1;
   string title = 2;
   int32  track_number = 3;
   repeated Artist featured_artists = 4;
   Album album = 5;
+  Artist artist = 6;
 }
 
 message AddSongRequest {
   string album_id = 1;
   string artist_id = 2;
-  string title = 3;
-  int32  track_number = 4;
-  repeated string featured_artists_ids = 5;
+  Song song = 3;
 }
 
 message AddSongResponse {
@@ -94,7 +80,10 @@ message Empty {}
 // ---------------Video service----------
 
 service VideoService {
-  rpc ListVideos(Empty) returns (ListVideoResponse){}
+  rpc ListVideos(Empty) returns (ListVideosResponse){}
+  rpc GetVideo(GetVideoRequest) returns (Video){}
+  rpc AddVideo(AddVideoRequest) returns (AddVideoResponse){}
+  rpc SearchVideos(SearchVideosRequest) returns (SearchVideosResponse){}
 }
 
 message Person {
@@ -102,14 +91,36 @@ message Person {
 }
 
 message Video {
-  string name = 1;
-  repeated Person actor = 2;
-  repeated Person director = 3;
-  string date = 4;
+  string id = 1;
+  string title = 2;
+  Artist artist = 3;
+  repeated Person directors = 4;
+  string date = 5;
 }
 
-message ListVideoResponse {
-  repeated Video videos = 1;
+message GetVideoRequest {
+  string video_id = 1;
+}
+
+message AddVideoRequest {
+  string artist_id = 1;
+  Video video = 2;
+}
+
+message ListVideosResponse {
+  repeated Video video = 1;
+}
+
+message AddVideoResponse {
+  string video_id = 1;
+}
+
+message SearchVideosRequest {
+  string query = 1;
+}
+
+message SearchVideosResponse {
+  repeated Video results = 1;
 }
 
 

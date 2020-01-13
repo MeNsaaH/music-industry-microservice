@@ -14,6 +14,7 @@ from . import views
 from . import app_pb2, app_pb2_grpc
 
 THIS_DIR = Path(__file__).parent
+STATIC_DIR = os.path.join(THIS_DIR, 'static')
 
 
 def get_grpc_stub(stub, port):
@@ -36,7 +37,6 @@ async def create_app():
     settings = Settings()
     app.update(
         settings=settings,
-        static_root=os.path.join(THIS_DIR, "static"),
         static_root_url="/static/",
     )
 
@@ -51,5 +51,6 @@ async def create_app():
     app.router.add_get("/", views.index, name="index")
     app.router.add_get("/music", views.music, name="music")
     app.router.add_route("*", "/music/add", views.add_music, name="add-music"),
+    app.add_routes([web.static('/static', STATIC_DIR)])
 
     return app
