@@ -6,6 +6,7 @@ package media;
 
 service SongService {
   rpc AddArtist(AddArtistRequest) returns (AddArtistResponse) {}
+  rpc GetArtist(GetArtistRequest) returns (Artist) {}
   rpc AddAlbum(AddAlbumRequest) returns (AddAlbumResponse) {}
   rpc AddSong(AddSongRequest) returns (AddSongResponse) {}
   rpc GetSong(GetSongRequest) returns (Song) {}
@@ -20,6 +21,10 @@ message Artist {
   string name = 2;
   string stage_name = 3;
   int32 age = 4;
+}
+
+message GetArtistRequest {
+  string artist_id = 1;
 }
 
 message AddArtistRequest {
@@ -108,7 +113,7 @@ message AddVideoRequest {
 }
 
 message ListVideosResponse {
-  repeated Video video = 1;
+  repeated Video videos = 1;
 }
 
 message AddVideoResponse {

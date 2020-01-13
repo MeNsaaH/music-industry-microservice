@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from concurrent import futures
 import os
@@ -62,6 +62,14 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         response = app_pb2.AddArtistResponse(artist_id=artist_id)
         return response
 
+    def GetArtist(self, request, context):
+        try:
+            return app_pb2.Artist(**self.artist_db[request.artist_id]) 
+        except KeyError:
+            context.set_details(f"Artist with id `{request.artist_id}` does not exist")
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            return app_pb2.Artist()
+
     def GetArtists(self, request, context):
         for artist_id, artist in self.artist_db.items():
             response = {
@@ -78,7 +86,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         if request.artist_id not in self.artist_db:
             context.set_details(f"Artist with id `{request.artist_id}` does not exist")
             context.set_code(grpc.StatusCode.NOT_FOUND)
-            return app_pb2.GetSongResponse()
+            return app_pb2.Song()
 
         self.album_db[album_id] = protobuf_to_dict(request)
         SongService.save(self.album_db, self.ALBUM_DB)
@@ -94,7 +102,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
                 "date": album["date"],
             }
 
-            yield app_pb2.GetAlbumResponse(**response)
+            yield app_pb2.Album(**response)
 
     def GetSong(self, request, context):
         # get song with id `request.song_id`
@@ -109,7 +117,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
 
             response_artist = app_pb2.Artist(**artist)
             response_album = app_pb2.Album(artist=response_artist, title=album["title"], date=album["date"])
-            response = app_pb2.GetSongResponse(
+            response = app_pb2.Song(
                     title=song["title"],
                     track_number=song["track_number"], 
                     featured_artists=response_featured_artist, 
@@ -118,7 +126,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         except KeyError:
             context.set_details(f"Song with id {request.song_id} does not exist")
             context.set_code(grpc.StatusCode.NOT_FOUND)
-            return app_pb2.GetSongResponse()
+            return app_pb2.Song()
 
     def GetSongs(self, request, context):
         for song_id, song in self.song_db.items():
@@ -145,7 +153,7 @@ class SongService(app_pb2_grpc.SongServiceServicer):
                     response["featured_artists"].append(
                             app_pb2.Artist(**self.artist_db[feat_artist_id]))
 
-            yield app_pb2.GetSongResponse(
+            yield app_pb2.Song(
                     **{k:response[k] for i, k in enumerate(response.keys()) if response[k] is not None})
 
     def AddSong(self, request, context):
@@ -163,18 +171,18 @@ class SongService(app_pb2_grpc.SongServiceServicer):
         if not request.album_id and not request.artist_id:
             context.set_details("artist_id or album_id parameter must be specified")
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-            return app_pb2.GetSongResponse()
+            return app_pb2.Song()
 
         if request.artist_id and request.artist_id not in self.artist_db:
             context.set_details(f"Artist {request.artist_id} does not exist")
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-            return app_pb2.GetSongResponse()
+            return app_pb2.Song()
 
         for artist_id in request.featured_artists_ids:
             if artist_id not in self.artist_db:
                 context.set_details(f"Featured Artist {artist_id} does not exist")
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                return app_pb2.GetSongResponse()
+                return app_pb2.Song()
 
         self.song_db[song_id] = protobuf_to_dict(request)
         SongService.save(self.song_db, self.SONG_DB)

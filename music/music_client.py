@@ -23,12 +23,17 @@ if __name__ == "__main__":
   album = {"title":"Something Stupid", "date":"1-12-2019"}
   song = {"title":"Geekdom", "track_number":3, "featured_artists_ids":["89979b90-34e2-11ea-83a6-b1766580429c"]}
 
-  # Test Add Artist
-  request = app_pb2.AddArtistRequest(**artist)
+#   # Test Add Artist
+#   request = app_pb2.AddArtistRequest(**artist)
+#   # make call to server
+#   response = stub.AddArtist(request)
+#   logger.info(response)
+  
+  # Test Get Artist
+  request = app_pb2.GetArtistRequest(artist_id="fd41b124-34d4-11ea-83a6-b1766580429c")
   # make call to server
-  response = stub.AddArtist(request)
+  response = stub.GetArtist(request)
   logger.info(response)
-
 
 #   # Test Add Album
 #   request = app_pb2.AddAlbumRequest(**album, artist_id="fd41b124-34d4-11ea-83a6-b1766580429c")

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -36,6 +35,14 @@ var (
 
 	reloadVideo bool
 )
+
+type dbVideo struct {
+	musicSvcAddr string
+}
+
+type dbStruct struct {
+	videos []*pb.Video
+}
 
 func init() {
 	log = logrus.New()
@@ -89,15 +96,14 @@ func run(port string) string {
 	}
 	srv := grpc.NewServer()
 	svc := &dbVideo{}
+	svc.musicSvcAddr = "localhost:8082"
 	pb.RegisterVideoServiceServer(srv, svc)
 	healthpb.RegisterHealthServer(srv, svc)
 	go srv.Serve(l)
 	return l.Addr().String()
 }
 
-type dbVideo struct{}
-
-func loadDB(video *pb.ListVideosResponse) error {
+func loadDB(videos *pb.ListVideosResponse) error {
 	videoMutex.Lock()
 	defer videoMutex.Unlock()
 	videoJSON, err := ioutil.ReadFile("videos.json")
@@ -105,7 +111,7 @@ func loadDB(video *pb.ListVideosResponse) error {
 		log.Fatalf("failed to open video json file: %v", err)
 		return err
 	}
-	if err := jsonpb.Unmarshal(bytes.NewReader(videoJSON), video); err != nil {
+	if err := jsonpb.Unmarshal(bytes.NewReader(videoJSON), videos); err != nil {
 		log.Warnf("failed to parse the video JSON: %v", err)
 		return err
 	}
@@ -114,13 +120,14 @@ func loadDB(video *pb.ListVideosResponse) error {
 }
 
 func parseVideo() []*pb.Video {
-	if reloadVideo || len(cat.Video) == 0 {
+	if reloadVideo || len(cat.Videos) == 0 {
 		err := loadDB(&cat)
 		if err != nil {
 			return []*pb.Video{}
 		}
 	}
-	return cat.Video
+	reloadVideo = false
+	return cat.Videos
 }
 
 func (p *dbVideo) Check(ctx context.Context, req *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {
@@ -132,7 +139,20 @@ func (p *dbVideo) Watch(req *healthpb.HealthCheckRequest, ws healthpb.Health_Wat
 }
 
 func (p *dbVideo) ListVideos(context.Context, *pb.Empty) (*pb.ListVideosResponse, error) {
-	return &pb.ListVideosResponse{Video: parseVideo()}, nil
+	return &pb.ListVideosResponse{Videos: parseVideo()}, nil
+}
+
+func (p *dbVideo) getArtist(ctx context.Context, artistID string) (*pb.Artist, codes.Code, error) {
+	conn, err := grpc.DialContext(ctx, p.musicSvcAddr, grpc.WithInsecure())
+	if err != nil {
+		return nil, codes.Internal, fmt.Errorf("could not connect Music service: %+v", err)
+	}
+	defer conn.Close()
+	artist, err := pb.NewSongServiceClient(conn).GetArtist(ctx, &pb.GetArtistRequest{ArtistId: artistID})
+	if err != nil {
+		return nil, codes.NotFound, fmt.Errorf("failed to Check Artist Info: %+v", err)
+	}
+	return artist, codes.OK, nil
 }
 
 func (p *dbVideo) GetVideo(ctx context.Context, req *pb.GetVideoRequest) (*pb.Video, error) {
@@ -143,6 +163,11 @@ func (p *dbVideo) GetVideo(ctx context.Context, req *pb.GetVideoRequest) (*pb.Vi
 			break
 		}
 	}
+	artist, statusCode, err := p.getArtist(ctx, found.Artist.Id)
+	if err != nil {
+		return nil, status.Errorf(statusCode, "no video with ID %s", req.VideoId)
+	}
+	found.Artist = artist
 	if found == nil {
 		return nil, status.Errorf(codes.NotFound, "no video with ID %s", req.VideoId)
 	}
@@ -152,10 +177,14 @@ func (p *dbVideo) GetVideo(ctx context.Context, req *pb.GetVideoRequest) (*pb.Vi
 func (p *dbVideo) SearchVideos(ctx context.Context, req *pb.SearchVideosRequest) (*pb.SearchVideosResponse, error) {
 	// Intepret query as a substring match in name or description.
 	var ps []*pb.Video
-	for _, p := range parseVideo() {
-		if strings.Contains(strings.ToLower(p.Title), strings.ToLower(req.Query)) ||
-			strings.Contains(strings.ToLower(p.Artist.Name), strings.ToLower(req.Query)) {
-			ps = append(ps, p)
+	for _, video := range parseVideo() {
+		if strings.Contains(strings.ToLower(video.Title), strings.ToLower(req.Query)) {
+			artist, statusCode, err := p.getArtist(ctx, video.Artist.Id)
+			if err != nil {
+				return nil, status.Errorf(statusCode, "%v", err)
+			}
+			video.Artist = artist
+			ps = append(ps, video)
 		}
 	}
 	return &pb.SearchVideosResponse{Results: ps}, nil
@@ -167,15 +196,23 @@ func (p *dbVideo) AddVideo(ctx context.Context, req *pb.AddVideoRequest) (*pb.Ad
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to generate order uuid")
 	}
-	req.Video.Id = videoID.String()
-	data = append(data, req.Video)
-	j, err := json.Marshal(data)
+	_, statusCode, err := p.getArtist(ctx, req.ArtistId)
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "Error creating JSON Data")
+		return nil, status.Errorf(statusCode, "could not connect Music service: %+v", err)
 	}
-	err = ioutil.WriteFile("videos.json", j, 0644)
+	req.Video.Id = videoID.String()
+	req.Video.Artist = &pb.Artist{Id: req.ArtistId}
+	data = append(data, req.Video)
+
+	jsonData, err := new(jsonpb.Marshaler).MarshalToString(&pb.ListVideosResponse{Videos: data})
+	if err != nil {
+		log.Fatalf("marshaling error: %v", err)
+	}
+
+	err = ioutil.WriteFile("videos.json", []byte(jsonData), 0644)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Error saving JSON Data")
 	}
+	reloadVideo = true
 	return &pb.AddVideoResponse{VideoId: req.Video.Id}, nil
 }
