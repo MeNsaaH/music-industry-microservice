@@ -20,6 +20,11 @@ class SongServiceStub(object):
         request_serializer=app__pb2.AddArtistRequest.SerializeToString,
         response_deserializer=app__pb2.AddArtistResponse.FromString,
         )
+    self.GetArtist = channel.unary_unary(
+        '/media.SongService/GetArtist',
+        request_serializer=app__pb2.GetArtistRequest.SerializeToString,
+        response_deserializer=app__pb2.Artist.FromString,
+        )
     self.AddAlbum = channel.unary_unary(
         '/media.SongService/AddAlbum',
         request_serializer=app__pb2.AddAlbumRequest.SerializeToString,
@@ -33,22 +38,22 @@ class SongServiceStub(object):
     self.GetSong = channel.unary_unary(
         '/media.SongService/GetSong',
         request_serializer=app__pb2.GetSongRequest.SerializeToString,
-        response_deserializer=app__pb2.GetSongResponse.FromString,
+        response_deserializer=app__pb2.Song.FromString,
         )
     self.GetSongs = channel.unary_stream(
         '/media.SongService/GetSongs',
         request_serializer=app__pb2.Empty.SerializeToString,
-        response_deserializer=app__pb2.GetSongResponse.FromString,
+        response_deserializer=app__pb2.Song.FromString,
         )
     self.GetAlbums = channel.unary_stream(
         '/media.SongService/GetAlbums',
         request_serializer=app__pb2.Empty.SerializeToString,
-        response_deserializer=app__pb2.GetAlbumResponse.FromString,
+        response_deserializer=app__pb2.Album.FromString,
         )
     self.GetArtists = channel.unary_stream(
         '/media.SongService/GetArtists',
         request_serializer=app__pb2.Empty.SerializeToString,
-        response_deserializer=app__pb2.GetArtistResponse.FromString,
+        response_deserializer=app__pb2.Artist.FromString,
         )
     self.RemoveSong = channel.unary_unary(
         '/media.SongService/RemoveSong',
@@ -63,6 +68,13 @@ class SongServiceServicer(object):
   """
 
   def AddArtist(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def GetArtist(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -126,6 +138,11 @@ def add_SongServiceServicer_to_server(servicer, server):
           request_deserializer=app__pb2.AddArtistRequest.FromString,
           response_serializer=app__pb2.AddArtistResponse.SerializeToString,
       ),
+      'GetArtist': grpc.unary_unary_rpc_method_handler(
+          servicer.GetArtist,
+          request_deserializer=app__pb2.GetArtistRequest.FromString,
+          response_serializer=app__pb2.Artist.SerializeToString,
+      ),
       'AddAlbum': grpc.unary_unary_rpc_method_handler(
           servicer.AddAlbum,
           request_deserializer=app__pb2.AddAlbumRequest.FromString,
@@ -139,22 +156,22 @@ def add_SongServiceServicer_to_server(servicer, server):
       'GetSong': grpc.unary_unary_rpc_method_handler(
           servicer.GetSong,
           request_deserializer=app__pb2.GetSongRequest.FromString,
-          response_serializer=app__pb2.GetSongResponse.SerializeToString,
+          response_serializer=app__pb2.Song.SerializeToString,
       ),
       'GetSongs': grpc.unary_stream_rpc_method_handler(
           servicer.GetSongs,
           request_deserializer=app__pb2.Empty.FromString,
-          response_serializer=app__pb2.GetSongResponse.SerializeToString,
+          response_serializer=app__pb2.Song.SerializeToString,
       ),
       'GetAlbums': grpc.unary_stream_rpc_method_handler(
           servicer.GetAlbums,
           request_deserializer=app__pb2.Empty.FromString,
-          response_serializer=app__pb2.GetAlbumResponse.SerializeToString,
+          response_serializer=app__pb2.Album.SerializeToString,
       ),
       'GetArtists': grpc.unary_stream_rpc_method_handler(
           servicer.GetArtists,
           request_deserializer=app__pb2.Empty.FromString,
-          response_serializer=app__pb2.GetArtistResponse.SerializeToString,
+          response_serializer=app__pb2.Artist.SerializeToString,
       ),
       'RemoveSong': grpc.unary_unary_rpc_method_handler(
           servicer.RemoveSong,
@@ -181,7 +198,22 @@ class VideoServiceStub(object):
     self.ListVideos = channel.unary_unary(
         '/media.VideoService/ListVideos',
         request_serializer=app__pb2.Empty.SerializeToString,
-        response_deserializer=app__pb2.ListVideoResponse.FromString,
+        response_deserializer=app__pb2.ListVideosResponse.FromString,
+        )
+    self.GetVideo = channel.unary_unary(
+        '/media.VideoService/GetVideo',
+        request_serializer=app__pb2.GetVideoRequest.SerializeToString,
+        response_deserializer=app__pb2.Video.FromString,
+        )
+    self.AddVideo = channel.unary_unary(
+        '/media.VideoService/AddVideo',
+        request_serializer=app__pb2.AddVideoRequest.SerializeToString,
+        response_deserializer=app__pb2.AddVideoResponse.FromString,
+        )
+    self.SearchVideos = channel.unary_unary(
+        '/media.VideoService/SearchVideos',
+        request_serializer=app__pb2.SearchVideosRequest.SerializeToString,
+        response_deserializer=app__pb2.SearchVideosResponse.FromString,
         )
 
 
@@ -197,13 +229,49 @@ class VideoServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetVideo(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def AddVideo(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def SearchVideos(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_VideoServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
       'ListVideos': grpc.unary_unary_rpc_method_handler(
           servicer.ListVideos,
           request_deserializer=app__pb2.Empty.FromString,
-          response_serializer=app__pb2.ListVideoResponse.SerializeToString,
+          response_serializer=app__pb2.ListVideosResponse.SerializeToString,
+      ),
+      'GetVideo': grpc.unary_unary_rpc_method_handler(
+          servicer.GetVideo,
+          request_deserializer=app__pb2.GetVideoRequest.FromString,
+          response_serializer=app__pb2.Video.SerializeToString,
+      ),
+      'AddVideo': grpc.unary_unary_rpc_method_handler(
+          servicer.AddVideo,
+          request_deserializer=app__pb2.AddVideoRequest.FromString,
+          response_serializer=app__pb2.AddVideoResponse.SerializeToString,
+      ),
+      'SearchVideos': grpc.unary_unary_rpc_method_handler(
+          servicer.SearchVideos,
+          request_deserializer=app__pb2.SearchVideosRequest.FromString,
+          response_serializer=app__pb2.SearchVideosResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

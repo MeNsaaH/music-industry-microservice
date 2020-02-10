@@ -1,7 +1,8 @@
 aiohttp==3.6.2
-aiohttp-jinja==1.2.0
+aiohttp-jinja2==1.2.0
 aiohttp-session[secure]==2.7.0
 pydantic==0.25
 grpcio==1.26.0
 grpcio-tools==1.26.0
 grpcio-health-checking==1.26.0
+gunicorn==20.0.4

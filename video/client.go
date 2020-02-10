@@ -32,7 +32,7 @@ func init() {
 
 func main() {
 	ctx := context.Background()
-	addr = "localhost:8003"
+	addr = "localhost:5050"
 	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		log.Fatal(err)
